@@ -9,13 +9,21 @@ This project provides a desktop-style web interface for uploading surgical proce
 
 ## Getting Started
 
-You can open `index.html` directly in your browser, or serve the project over HTTP to enable full functionality such as local video playback security policies.
+Choose the launch option that best matches your workflow and compliance requirements. Every mode keeps footage on the local workstation—no uploads are performed.
 
-### Option A: Open the file directly
-1. Clone or download this repository.
-2. Double-click `index.html` (or open it via your browser's **File → Open File…** menu).
+### Option A: Desktop shell (recommended for long recordings)
+1. Install [Node.js](https://nodejs.org/) 18 or newer.
+2. Open a terminal in the project root and run:
 
-### Option B: Serve with a local HTTP server (recommended)
+   ```bash
+   cd desktop
+   npm install
+   npm start
+   ```
+
+   This boots an Electron window that loads `index.html` directly from disk while providing a native desktop frame.
+
+### Option B: Serve with a local HTTP server
 Serving the files removes browser restrictions around local file access and ensures media playback works as expected.
 
 1. Clone or download this repository.
@@ -24,6 +32,11 @@ Serving the files removes browser restrictions around local file access and ensu
    - **Python 3:** `python -m http.server 8000`
    - **Node.js (http-server):** `npx http-server -p 8000`
 4. Visit `http://localhost:8000` in your browser.
+
+### Option C: Open the file directly
+1. Clone or download this repository.
+2. Double-click `index.html` (or open it via your browser's **File → Open File…** menu).
+3. Some browsers limit video playback from the `file://` scheme. If you run into restrictions, switch to Option A or B.
 
 ## Usage
 
@@ -37,12 +50,19 @@ Serving the files removes browser restrictions around local file access and ensu
 - `index.html` – Layout markup and component structure for the desktop UI.
 - `styles.css` – Visual design, theming, and layout rules.
 - `script.js` – Client-side logic for handling uploads, simulating processing, updating the UI, and managing playback interactions.
+- `desktop/` – Minimal Electron wrapper (`main.js`, `preload.js`, `package.json`) for packaging the UI as an installable desktop app.
 
 ## Troubleshooting
 
-- If video playback does not start, ensure you are accessing the site via `http://` or `https://` rather than the `file://` protocol.
-- Large video files may take longer to load in the browser; try smaller samples during testing.
+- If you run into playback restrictions when opening `index.html` directly, switch to the Electron shell (Option A) or a local HTTP server (Option B).
+- Large video files may take longer to scan for metadata; try smaller samples during UI smoke tests.
 - Clear your browser cache if you make local changes to the frontend files and do not see them reflected immediately.
+
+## Why offer a desktop option?
+
+- **Eliminate upload bottlenecks:** Multi-gigabyte source files never leave the device, so there's no waiting on network transfers.
+- **Privacy & compliance:** Patient-identifiable footage stays on-premises, simplifying HIPAA/GDPR considerations.
+- **Native ergonomics:** The Electron shell can be extended with OS-level integrations, accelerator keys, or PACS tooling without rewriting the core UI.
 
 ## License
 

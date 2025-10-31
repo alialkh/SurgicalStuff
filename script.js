@@ -13,9 +13,12 @@ const highlightsList = document.querySelector('#highlights-list');
 const toast = document.querySelector('#toast');
 const downloadSummaryButton = document.querySelector('#download-summary');
 const shareSummaryButton = document.querySelector('#share-summary');
+const localModeIndicator = document.querySelector('#local-mode-indicator');
 
 let uploadedFile = null;
 let mockProcessingTimeout = null;
+
+const isDesktopShell = Boolean(window?.desktopApp?.isElectron);
 
 const formatBytes = (bytes) => {
   if (!bytes && bytes !== 0) return '—';
@@ -51,6 +54,13 @@ const resetUI = () => {
     clearTimeout(mockProcessingTimeout);
     mockProcessingTimeout = null;
   }
+};
+
+const describeEnvironment = () => {
+  if (!localModeIndicator) return;
+  localModeIndicator.textContent = isDesktopShell
+    ? 'Running in secure desktop shell'
+    : 'Running locally in your browser';
 };
 
 const showToast = (message, duration = 4000) => {
@@ -156,3 +166,4 @@ shareSummaryButton.addEventListener('click', () => {
 });
 
 resetUI();
+describeEnvironment();
